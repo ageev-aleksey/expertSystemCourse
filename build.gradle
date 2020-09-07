@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'aav'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+task myJavadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+}
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

@@ -1,0 +1,26 @@
+<programma> ::= <operator_list>
+<operator_list> ::= <operator> ";" <operator_list> | EPSILON
+<operator> ::= <term_def> | <rule_def> | <list_rule> | <list_term>
+<term_def> ::= <term> '(' <string> ')'
+<term_list> ::= <term> "," <term_list> | <term>
+<rule_def> ::= <term_list> ">" <term>
+<solve_def> ::= "SOLVE" <term_list>
+<list_rule> ::= "RULES"
+<list_term> ::= "TERMS"
+<term> ::= <word>
+<word> ::= [a-zA-Z]+[a-zA-Z0-9]
+<string> ::= [a-zA-Z]+[a-zA-Z0-9\s]
+
+
+
+
+EXAMPLE:
+машина(устройсвто выплняющее механическую работу);
+оператор(Человек управлющией машиной);
+работа(выполнение некоторых действий);
+машина, оператор > работа;
+SOLVE машина, оператор;
+	-- работа
+RULES;
+TERMS;
+
