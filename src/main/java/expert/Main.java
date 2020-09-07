@@ -1,29 +1,70 @@
 package expert;
 
-import expert.parser.TokenType;
-import expert.parser.Tokenizer;
-import com.sun.tools.javac.util.Pair;
-import expert.productional.Production;
-import expert.productional.Solver;
-import expert.productional.Term;
-import expert.productional.except.ProductionalException;
-import expert.productional.impl.*;
+import expert.parser.StepExecutor;
+import expert.ui.ConsoleUi;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+class Executor implements StepExecutor {
+
+    @Override
+    public void createRule(Iterable<String> conclusions, String premise) {
+        StringBuilder b = new StringBuilder();
+        int i = 0;
+        for(String c : conclusions) {
+            i++;
+            b.append(c);
+            b.append(", ");
+        }
+        b.append(" > ");
+        b.append(premise);
+        System.out.println(b);
+    }
+
+    @Override
+    public void createTerm(String name, String description) {
+       System.out.println(name + "-" + description);
+    }
+
+    @Override
+    public void terms() {
+        System.out.println("!!TERMS!!");
+    }
+
+    @Override
+    public void rules() {
+        System.out.println("!!RULES!!");
+    }
+
+    @Override
+    public void solve(Iterable<String> conclusions) {
+        StringBuilder b = new StringBuilder();
+        int i = 0;
+        for(String c : conclusions) {
+            i++;
+            b.append(c);
+            b.append(", ");
+        }
+        System.out.println("!SOLVE " + b);
+    }
+
+    @Override
+    public void error(String message) {
+        System.err.println("Error: " + message);
+    }
+}
+
 
 public class Main {
     public static void main(String[] argv) {
-        String text = "machine(good work); people(bio entity); RULES; TERMS; work(oj); machine, people > work;";
-        Tokenizer tokenizer = new Tokenizer(text);
+//        String text1 = "machine(good work); people(bio entity); RULES; TERMS; work(oj); machine, people > work;";
+//        String text2 = "machine, people > work; machine, people, game > not_work;";
+//        String text = text1;
+//        Tokenizer tokenizer = new Tokenizer(text);
+//        Parser p = new Parser();
+//        Executor exe = new Executor();
+//        p.parse(tokenizer, exe);
 
-        Pair<TokenType, String> tok = tokenizer.next();
-        while(tok.fst != TokenType.END) {
-            System.out.println(tok.fst + " : " + tok.snd );
-            tok = tokenizer.next();
-        }
+          ConsoleUi ui = new ConsoleUi();
+          ui.run();
 
 //        InMemoryStorage storage = new InMemoryStorage();
 //        try {

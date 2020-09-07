@@ -10,6 +10,9 @@ public class Tokenizer {
     private TokenType before;
     private Pattern p = Pattern.compile("(SOLVE)|(RULES)|(TERMS)|(\\()|(\\))|(,)|(;)|(>)|([\\w\\s]+)");
     private Matcher m;
+    private Pair<TokenType, String> beforeSymbol;
+    private boolean isBefore = false;
+
     public Tokenizer(String str) {
         if (str != null) {
             m = p.matcher(str);
@@ -17,6 +20,20 @@ public class Tokenizer {
         }
     }
     public Pair<TokenType, String> next() {
+        if(isBefore) {
+            isBefore = false;
+            return beforeSymbol;
+        }
+        beforeSymbol = _next();
+        return beforeSymbol;
+
+    }
+
+    public void back() {
+        isBefore = true;
+    }
+
+    private Pair<TokenType, String> _next() {
         if(!m.find()) {
             return new Pair<>(TokenType.END, "");
         }
