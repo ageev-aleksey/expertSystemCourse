@@ -1,9 +1,15 @@
-<programma> ::= <operator_list>
+<programme> ::= <operator_list>
 <operator_list> ::= <operator> ";" <operator_list> | EPSILON
-<operator> ::= <term_def> | <rule_def> | <list_rule> | <list_term>
-<term_def> ::= <term> '(' <string> ')'
+//<operator> ::= <term_def> | <rule_def> | <list_rule> | <list_term>
+//CONVERTED//
+<operator> ::= <term><def_operators> |  <list_rule> | <list_term> | <solve_def>
+<def_operators> ::= '(' <string> ')' //define term
+                   | ',' <term_list> ">" <term> //define rule
+////
+
+//<term_def> ::= <term> '(' <string> ')'
 <term_list> ::= <term> "," <term_list> | <term>
-<rule_def> ::= <term_list> ">" <term>
+//<rule_def> ::= <term_list> ">" <term>
 <solve_def> ::= "SOLVE" <term_list>
 <list_rule> ::= "RULES"
 <list_term> ::= "TERMS"
