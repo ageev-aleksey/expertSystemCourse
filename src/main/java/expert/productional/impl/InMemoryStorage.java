@@ -66,7 +66,7 @@ public class InMemoryStorage implements Dictionary, KnowledgeBase {
 
     @Override
     public Term getTerm(String termName) throws NotFoundException {
-        Term res = mDict.get(termName).term;
+        Node res = mDict.get(termName);
         if(res == null) {
             throw new NotFoundException("Not found term by name " + termName + " in dictionary.");
         }
@@ -128,6 +128,15 @@ public class InMemoryStorage implements Dictionary, KnowledgeBase {
         HashSet<Production> prods = new HashSet<>();
         for(ProductionDescriptor el : nt.inProductions) {
             prods.add(initDProduction(el));
+        }
+        return prods;
+    }
+
+    @Override
+    public Set<Production> getProductions() {
+        Set<Production> prods = new HashSet<>();
+        for(Map.Entry<String, ProductionDescriptor> el : mProductions.entrySet()) {
+            prods.add(initDProduction(el.getValue()));
         }
         return prods;
     }

@@ -5,39 +5,33 @@ import expert.parser.Tokenizer;
 
 import java.util.Scanner;
 
-public class ConsoleUi {
+public class ConsoleUi implements Ui {
 
     private Scanner stdin = new Scanner(System.in);
+    private StringBuilder line = new StringBuilder();
 
-    public void run() {
-        printLine("Expert system v1");
-        String in = "";
-        Parser p = null;
-        Tokenizer t = null;
-        while (true) {
-            in = input();
-            if(in.equals("\\q;")) {
-                break;
-            }
-            t = new Tokenizer(in);
-            p.parse(t, );
-        }
-    }
-    private String input() {
-        print(">> ");
-        StringBuilder line = new StringBuilder(stdin.nextLine());
-        while(!isEndCommand(line)) {
-            print("... ");
-            line.append(stdin.nextLine());
-        }
-        return line.toString();
+    @Override
+    public StringBuilder getCommand() {
+        line.setLength(0);
+        print(">>> ");
+        line.append(stdin.nextLine());
+        return line;
     }
 
-    private boolean isEndCommand(CharSequence sequence) {
-        int i = sequence.length()-1;
-        for(; i >= 0 && sequence.charAt(i) == ' '; i-- ) {}
-        return sequence.charAt(i) == ';';
+    @Override
+    public StringBuilder tryGetCommand() {
+        print("... ");
+        line.append(stdin.nextLine());
+        return line;
     }
+
+    @Override
+    public void displayMessage(String message) {
+        printLine(message);
+    }
+
+
+
 
     private void printLine(String s) {
         System.out.println(s);
@@ -48,4 +42,5 @@ public class ConsoleUi {
         System.out.print(s);
         System.out.flush();
     }
+
 }

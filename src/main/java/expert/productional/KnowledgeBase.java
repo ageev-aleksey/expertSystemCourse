@@ -29,8 +29,8 @@ public interface KnowledgeBase {
 
     /**
      * Получить множество правил в которые воходи заданный факт в качетсве посылки
-     * @param term  Факт, по которому ищутся правилаы
      * @return Правила в которые входит заданный факт
      */
     Set<Production> getProductionByTerm(String termName);
+    Set<Production> getProductions();
 }

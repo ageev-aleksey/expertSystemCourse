@@ -1,0 +1,21 @@
+computer(automatic calculation machine);
+game(entertainment computer program);
+cad(Computer aided design  is the use of computers  to aid in the creatio modification analysis or optimization of a design);
+human(humans are highly intelligent primates that have become the dominant species on Earth.);
+work(functioning of any system a mechanism biocenosis organism or community as well as its part);
+happy(It is a state of humans soul);
+computer_programm(It is set of machines instructions);
+education(the process of facilitating learning or the acquisition of knowledge skills values beliefs and habits);
+money(It is any item or verifiable record that is generally accepted as payment for goods and services);
+tech(the sum of techniques skills methods and processes used in the production of goods or services);
+time(is the indefinite continued progress of existence and events that occur in an apparently irreversible succession from the past through the present into the future);
+
+
+human, computer, game > happy;
+human, computer, cad > work;
+computer, cad > computer_programm;
+human, work > money;
+human, education, work > tech;
+tech, human, work > tech;
+tech, human, work, time > money;
+money, education, work > happy;

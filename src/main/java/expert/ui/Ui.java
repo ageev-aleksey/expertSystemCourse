@@ -1,6 +1,7 @@
 package expert.ui;
 
 public interface Ui {
-    String getCommand();
-    String tryGetCommand();
+    StringBuilder getCommand();
+    StringBuilder tryGetCommand();
+    void displayMessage(String message);
 }

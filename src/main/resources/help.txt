@@ -1,0 +1,10 @@
+-=Expert system for lab1==-
+-Commands-
+\q - exit from programme
+\\h - get help\n\n
+-Syntax of ES language-\n
+<Term>(<Term description>); - add new term
+<Term1>[,<Term2> [,<Term3>...]] > <Term4>; - Create new production, all using terms must be exists
+TERMS; - show term's list
+RULES; - show production's list
+SOLVE <Term1>[,<Term2> [,<Term3>...]]; - execute solver for inference information by input terms.

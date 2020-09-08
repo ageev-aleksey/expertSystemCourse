@@ -1,7 +1,19 @@
 package expert;
 
+import expert.parser.Parser;
 import expert.parser.StepExecutor;
+import expert.parser.Tokenizer;
+import expert.productional.Dictionary;
+import expert.productional.KnowledgeBase;
+import expert.productional.impl.BruteForceSolver;
+import expert.productional.impl.InMemoryStorage;
 import expert.ui.ConsoleUi;
+import expert.ui.Ui;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class Executor implements StepExecutor {
 
@@ -55,44 +67,13 @@ class Executor implements StepExecutor {
 
 public class Main {
     public static void main(String[] argv) {
-//        String text1 = "machine(good work); people(bio entity); RULES; TERMS; work(oj); machine, people > work;";
-//        String text2 = "machine, people > work; machine, people, game > not_work;";
-//        String text = text1;
-//        Tokenizer tokenizer = new Tokenizer(text);
-//        Parser p = new Parser();
-//        Executor exe = new Executor();
-//        p.parse(tokenizer, exe);
-
-          ConsoleUi ui = new ConsoleUi();
-          ui.run();
-
-//        InMemoryStorage storage = new InMemoryStorage();
-//        try {
-//            Term t1 = storage.addTerm(new UserTerm("t1", "t1"));
-//            Term t2 = storage.addTerm(new UserTerm("t2", "t2"));
-//            Term t3 = storage.addTerm(new UserTerm("t3", "t3"));
-//            Term t4 = storage.addTerm(new UserTerm("t4", "t4"));
-//            storage.addProduction(new UserProduction(Arrays.asList(t1, t2, t3), t4));
-//            storage.addProduction(new UserProduction(Arrays.asList(t1, t2, t4), t3));
-//            storage.addProduction(new UserProduction(Arrays.asList(t1, t3), t2));
-//
-//            InMemoryWM w = new InMemoryWM();
-//            w.addTerm(t1);
-//            w.addTerm(t2);
-//            w.addTerm(t3);
-//
-//            Solver s = new BruteForceSolver();
-//            Set<Production> res = s.solve(storage, storage, w);
-//
-//            System.out.println("Result:");
-//            for (Production p : res) {
-//                System.out.println(p.getConclusion().getName());
-//            }
-//
-//        } catch(ProductionalException exp) {
-//            System.out.println(exp.getMessage());
-//        }
-
-
+        InMemoryStorage storage = new InMemoryStorage();
+        App app = new App(storage, storage, new BruteForceSolver(), new ConsoleUi());
+        if(argv.length > 0) {
+            if(!app.loadFile(argv[0])) {
+                return;
+            }
+        }
+        app.run();
     }
 }
