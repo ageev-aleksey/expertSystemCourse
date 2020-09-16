@@ -17,6 +17,7 @@ import expert.ui.Ui;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -182,13 +183,17 @@ public class App implements StepExecutor {
 
             }
             Set<Production> prods = mSolver.solve(mDict, mBase, mem);
+            Set<Term> terms = new HashSet<>();
+            for(Production p : prods) {
+                terms.add(p.getConclusion());
+            }
             if (prods.isEmpty()) {
                 mCommandGetter.displayMessage("Not result");
             } else {
                 StringBuilder b = new StringBuilder();
                 b.append("-=Results=-\n");
-                for (Production p : prods) {
-                    termToString(b, p.getConclusion());
+                for (Term t : terms) {
+                    termToString(b, t);
                 }
                 mCommandGetter.displayMessage(b.toString());
             }
