@@ -82,8 +82,34 @@ public class Main {
 //        app.run();
 //    }
 
+
+
+
+
+        Graph<Type, Empty> g = example4();
+        String dot = GraphToDot.convert(g);
+
+       Pair<Boolean, Graph<Type, Empty>> res = FullBruteForce.run(g);
+
+
+        String dot2 = GraphToDot.convert(g);
+        FileWriter fw = new FileWriter("graph1.gv");
+        fw.write(dot);
+        fw.close();
+        fw = new FileWriter("graph2.gv");
+        fw.write(dot2);
+        fw.close();
+        ProcessBuilder graphiz = new ProcessBuilder("dot", "-Tsvg", "-o", "graph1.svg", "graph1.gv");
+        graphiz.start();
+        graphiz = new ProcessBuilder("dot", "-Tsvg", "-o", "graph2.svg", "graph2.gv");
+        graphiz.start();
+    }
+
+
+    static Graph<Type, Empty> example1() {
         Graph<Type, Empty> g = new Graph<>();
         Type t = new Type();
+       // EXAMPLE 1
         t.isResolved = ResolvedFlags.NONE;
         t.nodeType = NodeType.MEDIUM;
         t.linksType = LinksType.OR;
@@ -138,21 +164,388 @@ public class Main {
         g.addLink(n2, n4);
         g.addLink(n5, n6);
         g.addLink(n5, n7);
-        String dot = GraphToDot.convert(g);
+        return g;
+    }
 
-        Pair<Boolean, Graph<Type, Empty>> res = FullBruteForce.run(g);
+
+    static Graph<Type, Empty> example2() {
+        Graph<Type, Empty> g = new Graph<>();
+        Type t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n1";
+        NodeIterator<Type, Empty> n1 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n2";
+        NodeIterator<Type, Empty> n2 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n3";
+        NodeIterator<Type, Empty> n3 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n4";
+        NodeIterator<Type, Empty> n4 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n5";
+        NodeIterator<Type, Empty> n5 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n6";
+        NodeIterator<Type, Empty> n6 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n7";
+        NodeIterator<Type, Empty> n7 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n8";
+        NodeIterator<Type, Empty> n8 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n9";
+        NodeIterator<Type, Empty> n9 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n10";
+        NodeIterator<Type, Empty> n10 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n11";
+        NodeIterator<Type, Empty> n11 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n12";
+        NodeIterator<Type, Empty> n12 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n13";
+        NodeIterator<Type, Empty> n13 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n14";
+        NodeIterator<Type, Empty> n14 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n15";
+        NodeIterator<Type, Empty> n15 = g.addNode(t);
 
 
-        String dot2 = GraphToDot.convert(g);
-        FileWriter fw = new FileWriter("graph1.gv");
-        fw.write(dot);
-        fw.close();
-        fw = new FileWriter("graph2.gv");
-        fw.write(dot2);
-        fw.close();
-        ProcessBuilder graphiz = new ProcessBuilder("dot", "-Tsvg", "-o", "graph1.svg", "graph1.gv");
-        graphiz.start();
-        graphiz = new ProcessBuilder("dot", "-Tsvg", "-o", "graph2.svg", "graph2.gv");
-        graphiz.start();
+        g.addLink(n1, n2);
+        g.addLink(n1, n3);
+        g.addLink(n2, n4);
+        g.addLink(n2, n5);
+        g.addLink(n4, n6);
+        g.addLink(n4, n7);
+        g.addLink(n5, n8);
+        g.addLink(n5, n9);
+        g.addLink(n6, n10);
+        g.addLink(n6, n11);
+        g.addLink(n7, n12);
+        g.addLink(n7, n13);
+        g.addLink(n8, n14);
+        g.addLink(n8, n15);
+
+
+        return g;
+    }
+
+    static Graph<Type, Empty> example3() {
+        Graph<Type, Empty> g = new Graph<>();
+        Type t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n1";
+        NodeIterator<Type, Empty> n1 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n2";
+        NodeIterator<Type, Empty> n2 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n3";
+        NodeIterator<Type, Empty> n3 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n4";
+        NodeIterator<Type, Empty> n4 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n5";
+        NodeIterator<Type, Empty> n5 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n6";
+        NodeIterator<Type, Empty> n6 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n7";
+        NodeIterator<Type, Empty> n7 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n8";
+        NodeIterator<Type, Empty> n8 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n9";
+        NodeIterator<Type, Empty> n9 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n10";
+        NodeIterator<Type, Empty> n10 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n11";
+        NodeIterator<Type, Empty> n11 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n12";
+        NodeIterator<Type, Empty> n12 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n13";
+        NodeIterator<Type, Empty> n13 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n14";
+        NodeIterator<Type, Empty> n14 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n15";
+        NodeIterator<Type, Empty> n15 = g.addNode(t);
+
+
+        g.addLink(n1, n2);
+        g.addLink(n1, n3);
+        g.addLink(n2, n4);
+        g.addLink(n2, n5);
+        g.addLink(n4, n6);
+        g.addLink(n4, n7);
+        g.addLink(n5, n8);
+        g.addLink(n5, n9);
+        g.addLink(n6, n10);
+        g.addLink(n6, n11);
+        g.addLink(n7, n12);
+        g.addLink(n7, n13);
+        g.addLink(n8, n14);
+        g.addLink(n8, n15);
+
+
+        return g;
+    }
+
+    static Graph<Type, Empty> example4() {
+        Graph<Type, Empty> g = new Graph<>();
+        Type t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n1";
+        NodeIterator<Type, Empty> n1 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n2";
+        NodeIterator<Type, Empty> n2 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n3";
+        NodeIterator<Type, Empty> n3 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n4";
+        NodeIterator<Type, Empty> n4 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n5";
+        NodeIterator<Type, Empty> n5 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n6";
+        NodeIterator<Type, Empty> n6 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.AND;
+        t.value = "n7";
+        NodeIterator<Type, Empty> n7 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n8";
+        NodeIterator<Type, Empty> n8 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n9";
+        NodeIterator<Type, Empty> n9 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n10";
+        NodeIterator<Type, Empty> n10 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n11";
+        NodeIterator<Type, Empty> n11 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.FINAL;
+        t.linksType = LinksType.OR;
+        t.value = "n12";
+        NodeIterator<Type, Empty> n12 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n13";
+        NodeIterator<Type, Empty> n13 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n14";
+        NodeIterator<Type, Empty> n14 = g.addNode(t);
+
+        t = new Type();
+        t.isResolved = ResolvedFlags.NONE;
+        t.nodeType = NodeType.MEDIUM;
+        t.linksType = LinksType.OR;
+        t.value = "n15";
+        NodeIterator<Type, Empty> n15 = g.addNode(t);
+
+
+        g.addLink(n1, n2);
+        g.addLink(n1, n3);
+        g.addLink(n2, n4);
+        g.addLink(n2, n5);
+        g.addLink(n4, n6);
+        g.addLink(n4, n7);
+        g.addLink(n5, n8);
+        g.addLink(n5, n9);
+        g.addLink(n6, n10);
+        g.addLink(n6, n11);
+        g.addLink(n7, n12);
+        g.addLink(n7, n13);
+        g.addLink(n8, n14);
+        g.addLink(n8, n15);
+
+
+        return g;
     }
 }

@@ -9,4 +9,8 @@ public class Type {
     public LinksType linksType;
     public NodeType nodeType;
     public ResolvedFlags isResolved;
+
+    public String toString() {
+        return value + " (" + isResolved + ")";
+    }
 }

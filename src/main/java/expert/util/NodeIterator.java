@@ -69,4 +69,8 @@ public class NodeIterator<NodeData, LinkData>  {
 
         return (mGraph != other.mGraph) && (mNodeIndex == other.mNodeIndex);
     }
+
+    public String toString() {
+        return mGraph.nodes.get(mNodeIndex).data.toString();
+    }
 }

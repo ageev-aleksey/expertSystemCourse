@@ -16,11 +16,17 @@ public class FullBruteForce {
         openedNodes.add(graph.root()); // Вершина s
         NodeIterator<Type, Empty> s = graph.root();
         Graph<Type, Empty> resolvedGraph = new Graph<>();
+        NodeIterator<Type, Empty> s2 = resolvedGraph.addNode(s.data());
         while (true) { // ШАГ 2
             NodeIterator<Type, Empty> n1 = openedNodes.getFirst();
-            NodeIterator<Type, Empty> n2 = resolvedGraph.addNode(n1.data());
+            NodeIterator<Type, Empty> n2 = resolvedGraph.findNode(n1.data());
+            assert (n2 != null);
             openedNodes.removeFirst();
             closedNodes.addLast(n1);
+            n1.data().value += "*";
+            if (n1.data().isResolved == ResolvedFlags.RESOLVED) {
+                continue;
+            }
             ////// ШАГ 3 ////////////////
             LinkIterator<Type, Empty> linkItr = n1.links();
             boolean haveChildren = (linkItr != null);
@@ -40,7 +46,7 @@ public class FullBruteForce {
                 // Если у узла имеются разрешимые вершины, то выполняем процедуру проверки, разрешима ли S
                 // if (resolvedChildren.size() == linkItr.numLinks()) {
                 if (!resolvedChildren.isEmpty()) {
-                    applyNotResolving(s);
+                    applyNotResolving(resolvedGraph.root());
                     if (s.data().isResolved == ResolvedFlags.RESOLVED) { // ШАГ 10.
                         // УСПЕХ
                         Pair<Boolean, Graph<Type, Empty>> res = new Pair<>();
@@ -54,7 +60,7 @@ public class FullBruteForce {
                         Iterator<NodeIterator<Type, Empty>> itr = openedNodes.iterator();
                         while (itr.hasNext()) {
                             NodeIterator<Type, Empty> el = itr.next();
-                            if ((el.data().isResolved == ResolvedFlags.RESOLVED) || parentIsResolved(el)) {
+                            if (/*(el.data().isResolved == ResolvedFlags.RESOLVED) || */parentIsResolved(el)) {
                                 itr.remove();
                             }
                         }
@@ -69,7 +75,7 @@ public class FullBruteForce {
                 /////ШАГ 4///////////
                 // вершина не имеет дочерних врешин
                 // выполнить процедуру разметки разрешимых и не рархрешимых вершин
-                applyNotResolving(s);
+                applyNotResolving(resolvedGraph.root());
                 /// ШАГ 5 ///
                 if (s.data().isResolved == ResolvedFlags.NO_RESOLVED) {
                     // НЕУДАЧА
@@ -112,31 +118,44 @@ public class FullBruteForce {
 
     private static ResolvedFlags and_or_move(NodeIterator<Type, Empty> nodeItr, List<NodeIterator<Type, Empty>> visited) {
         if ((nodeItr.links() == null) && (nodeItr.data().nodeType == NodeType.MEDIUM)) {
-            nodeItr.data().isResolved =  ResolvedFlags.NO_RESOLVED;
-            return ResolvedFlags.NO_RESOLVED;
+           // nodeItr.data().isResolved =  ResolvedFlags.NONE;
+            return nodeItr.data().isResolved;
         }
+        if (nodeItr.data().isResolved != ResolvedFlags.NONE) {
+            return nodeItr.data().isResolved;
+        }
+
         ResolvedFlags flag = ResolvedFlags.NONE;
         if (nodeItr.data().linksType == LinksType.OR) {
             LinkIterator<Type, Empty> link = nodeItr.links();
+            int num_not_resolved = 0;
             do {
                 NodeIterator<Type, Empty> child = link.nodeEnd();
-                if(_applyNotResolving(child, visited) == ResolvedFlags.RESOLVED) {
+                ResolvedFlags status = _applyNotResolving(child, visited);
+                if(status == ResolvedFlags.RESOLVED) {
                     flag = ResolvedFlags.RESOLVED;
                     break;
+                } else if (status == ResolvedFlags.NO_RESOLVED) {
+                    num_not_resolved++;
                 }
             } while (link.next());
+            if (num_not_resolved == link.numLinks()) {
+                flag = ResolvedFlags.NO_RESOLVED;
+            }
         } else if (nodeItr.data().linksType == LinksType.AND) {
             LinkIterator<Type, Empty> link = nodeItr.links();
             int num_resolved = 0;
             do {
-                flag = ResolvedFlags.RESOLVED;
                 NodeIterator<Type, Empty> child = link.nodeEnd();
-                if(_applyNotResolving(child, visited) ==  ResolvedFlags.NO_RESOLVED) {
+                ResolvedFlags status = _applyNotResolving(child, visited);
+                if(status ==  ResolvedFlags.NO_RESOLVED) {
                     flag = ResolvedFlags.NO_RESOLVED;
                     break;
+                } else if (status == ResolvedFlags.RESOLVED) {
+                    num_resolved++;
                 }
             } while (link.next());
-            if (num_resolved == link.numLinks()) {
+            if ((flag == ResolvedFlags.NONE) && (num_resolved == link.numLinks())) {
                 flag = ResolvedFlags.RESOLVED;
             }
         }
@@ -163,13 +182,13 @@ public class FullBruteForce {
      * @return
      */
     private static boolean parentIsResolved(NodeIterator<Type, Empty> nodeItr) {
-        ResolvedChecker checker = new ResolvedChecker(ResolvedFlags.RESOLVED);
+        ResolvedChecker checker = new ResolvedChecker(ResolvedFlags.RESOLVED, nodeItr);
         bfs(nodeItr, new Backward<>(), checker);
         return checker.get() == ResolvedFlags.RESOLVED;
     }
 
     private static boolean parentIsNotResolved(NodeIterator<Type, Empty> nodeItr) {
-        ResolvedChecker checker = new ResolvedChecker(ResolvedFlags.NO_RESOLVED);
+        ResolvedChecker checker = new ResolvedChecker(ResolvedFlags.NO_RESOLVED, nodeItr);
         bfs(nodeItr, new Backward<>(), checker);
         return checker.get() == ResolvedFlags.NO_RESOLVED;
     }
@@ -227,12 +246,18 @@ class ResolvedChecker implements Action<Type, Empty> {
 
     private ResolvedFlags isResolved = ResolvedFlags.NONE;
     private ResolvedFlags check;
-    ResolvedChecker(ResolvedFlags whatCheck) {
+    NodeIterator<Type, Empty> startedNode;
+    ResolvedChecker(ResolvedFlags whatCheck, NodeIterator<Type, Empty> started)
+    {
         check = whatCheck;
+        startedNode = started;
     }
 
     @Override
     public boolean activate(NodeIterator<Type, Empty> itr) {
+        if (itr.equals(startedNode)) {
+            return true;
+        }
         isResolved = itr.data().isResolved;
         return  itr.data().isResolved != check;
     }

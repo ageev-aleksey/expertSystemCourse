@@ -72,4 +72,12 @@ public class LinkIterator<NodeData, LinkData> {
         }
         return mGraph.nodes.get(mIndexNode).backwardLinks.size();
     }
+
+    public String toString() {
+        if (mIsForward) {
+            return mGraph.nodes.get(mIndexNode).forwardLinks.get(mIndexLink).begin.data().toString() + "-->" + mGraph.nodes.get(mIndexNode).forwardLinks.get(mIndexLink).end.data().toString();
+        }
+        return mGraph.nodes.get(mIndexNode).backwardLinks.get(mIndexLink).begin.data().toString() + "-->" + mGraph.nodes.get(mIndexNode).backwardLinks.get(mIndexLink).end.data().toString();
+
+    }
 }

@@ -1,7 +1,5 @@
 package expert.util;
 
-import expert.util.exception.GraphException;
-
 import java.util.ArrayList;
 
 public class Graph<NodeData, LinkData> {
@@ -58,5 +56,16 @@ public class Graph<NodeData, LinkData> {
             return null;
         }
         return new NodeIterator<>(this, 0);
+    }
+
+    public NodeIterator<NodeData, LinkData> findNode(NodeData data) {
+        int i = 0;
+        for(Node el : nodes) {
+            if (data.equals(el.data)) {
+                return new NodeIterator<>(this, i);
+            }
+            i++;
+        }
+        return null;
     }
 }
