@@ -9,6 +9,6 @@ public interface Solver {
      * @param iterator итератор по набору фактов (@see Term)
      * @return Набор фактов, которыя являются следствием исходных фактов
      */
-    Set<Production> solve(Dictionary dict, KnowledgeBase base, WorkingMemory mem);
+    Set<Production> solve(Dictionary dict, KnowledgeBase base, WorkingMemory mem, TraceInfo info);
 
 }

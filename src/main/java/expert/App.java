@@ -17,6 +17,7 @@ import expert.ui.Ui;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -181,14 +182,36 @@ public class App implements StepExecutor {
                 mem.addTerm(mDict.getTerm(c));
 
             }
-            Set<Production> prods = mSolver.solve(mDict, mBase, mem);
+            TraceInfo tInfo = new TraceInfo();
+            Set<Production> prods = mSolver.solve(mDict, mBase, mem, tInfo);
+            Set<Term> terms = new HashSet<>();
+            for(Production p : prods) {
+                terms.add(p.getConclusion());
+            }
             if (prods.isEmpty()) {
                 mCommandGetter.displayMessage("Not result");
             } else {
                 StringBuilder b = new StringBuilder();
+                if(!tInfo.productionalsSetVersions.isEmpty()) {
+                    b.append("-=Trace=-\n");
+                    for(int i =0; i < tInfo.memoryVersions.size(); i++) {
+                        b.append("STEP ").append(i)
+                                .append(":\n  - Terms\n");
+                        for(Term t : tInfo.memoryVersions.get(i)) {
+                            b.append("     ");
+                            termToStringWithoutDescription(b, t);
+                        }
+                        b.append("  - Rules\n");
+                        for(Production p : tInfo.productionalsSetVersions.get(i)) {
+                            b.append("     ");
+                            ruleToString(b, p);
+                        }
+                    }
+                }
+
                 b.append("-=Results=-\n");
-                for (Production p : prods) {
-                    termToString(b, p.getConclusion());
+                for (Term t : terms) {
+                    termToString(b, t);
                 }
                 mCommandGetter.displayMessage(b.toString());
             }
@@ -210,6 +233,23 @@ public class App implements StepExecutor {
                 .append("(")
                 .append(term.getDescription())
                 .append(")\n");
+    }
+
+    private void termToStringWithoutDescription(StringBuilder sb, Term term) {
+        sb.append("- ")
+                .append(term.getName())
+                .append("\n");
+    }
+
+    private void ruleToString(StringBuilder sb, Production prod) {
+        sb.append("- ");
+        for(Term t : prod.getPremises()) {
+            sb.append(t.getName()).append(", ");
+        }
+        sb.setLength(sb.length()-2);
+        sb.append(" -> ")
+                .append(prod.getConclusion().getName())
+                .append("\n");
     }
 
     private void printHelp() {
