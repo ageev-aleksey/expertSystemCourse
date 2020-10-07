@@ -69,6 +69,11 @@ class MockKnowledgeBase implements KnowledgeBase {
         }
         return p;
     }
+
+    @Override
+    public Set<Production> getProductions() {
+        return null;
+    }
 }
 
 class MockWorkingMem implements WorkingMemory {
