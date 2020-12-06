@@ -5,10 +5,10 @@ package expert.alg;
  * А так же определяет разрешима или не разрешима вершина
  */
 public class Type {
-    public String value = "";
-    public LinksType linksType;
-    public NodeType nodeType;
-    public ResolvedFlags isResolved;
+    public String value = ""; // Название вершины
+    public LinksType linksType; // Тип связи И/ИЛИ
+    public NodeType nodeType; // Тип узла - промежуточный или конечный
+    public ResolvedFlags isResolved; // Разрешима ли вершина?
 
     public String toString() {
         return value + " (" + isResolved + ")";

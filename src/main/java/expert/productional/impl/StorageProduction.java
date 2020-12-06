@@ -8,11 +8,19 @@ import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Класс описывающий правило, которое зарегистрировано в базе правил
+ */
 public class StorageProduction implements Production {
 
+    // Мягкая ссылка на описатель правлиа из базы правил
     WeakReference<InMemoryStorage.ProductionDescriptor> mProductionPtr;
 
-
+    /**
+     * Провека, что правило активизируется на множестве термов
+     * @param terms
+     * @return
+     */
     @Override
     public boolean isActivate(Iterable<Term> terms) {
         InMemoryStorage.ProductionDescriptor prod = get();

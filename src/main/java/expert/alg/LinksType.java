@@ -1,6 +1,7 @@
 package expert.alg;
 
+// Тип связи
 public enum LinksType {
-    AND,
-    OR,
+    AND, // Связь И
+    OR, // Связь ИЛИ
 }

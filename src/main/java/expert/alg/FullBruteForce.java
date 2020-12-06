@@ -8,6 +8,10 @@ import org.w3c.dom.Node;
 
 import java.util.*;
 
+/**
+ * Реализация алгоритма Нильсона.
+ * Шаги пронумерованы в соответсвии с описанием алгритма.
+ */
 public class FullBruteForce {
     public static Pair<Boolean, Graph<Type, Empty>> run(Graph<Type, Empty> graph) {
         /// ШАГ 1 /////
@@ -117,6 +121,16 @@ public class FullBruteForce {
     }
 
     private static ResolvedFlags and_or_move(NodeIterator<Type, Empty> nodeItr, List<NodeIterator<Type, Empty>> visited) {
+        // Рекурсивная процедура реализующая разметку вершин по следующим определениям:
+        /*
+            Разрешимость вершины:
+               - Заключительные врешины разрешимы, так как они соотвествуют
+               элементарным подзадачам
+               - Если у вершины, не являющейся заключительной, дочерние вершины типа ИЛИ,
+               то она разрешима тогда и только тогда, когда разрешима покрайней мере одна дчерняя вершина
+               - Если у вершины, не являющейся заключительной, дочерние вершины типа И,
+               то она разрешима тогда и только тогда, когда разрешимы все ее дочерние вершины
+         */
         if ((nodeItr.links() == null) && (nodeItr.data().nodeType == NodeType.MEDIUM)) {
            // nodeItr.data().isResolved =  ResolvedFlags.NONE;
             return nodeItr.data().isResolved;

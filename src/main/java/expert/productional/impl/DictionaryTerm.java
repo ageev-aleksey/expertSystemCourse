@@ -11,7 +11,6 @@ public class DictionaryTerm implements Term {
     WeakReference<InMemoryStorage> mDict;
     String mName;
     DictionaryTerm() {}
-    // TODO(ageev) implements hash, equals
     @Override
     public void setName(String name) throws ExistsException {
 

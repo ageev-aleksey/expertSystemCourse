@@ -3,10 +3,14 @@ package expert.productional.impl;
 import expert.productional.Term;
 import expert.productional.except.ExistsException;
 
+/**
+ * Класс описывающий терм, которые ще небыл зарегистрирован в базе знаний
+ */
 public class UserTerm implements Term {
 
-    private String mName;
-    private String mDescription;
+    private String mName; // уникальное имя терма
+    private String mDescription; // описание терма
+
 
     public UserTerm(String name, String description) {
         mName = name;

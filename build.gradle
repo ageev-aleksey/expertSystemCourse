@@ -27,7 +27,7 @@ test {
 jar {
     manifest {
         attributes(
-                "Main-Class": "expert.Main"
+                "Main-Class": "lab3.Main3"
         )
     }
 }

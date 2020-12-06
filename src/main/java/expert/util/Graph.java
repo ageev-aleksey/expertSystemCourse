@@ -2,6 +2,9 @@ package expert.util;
 
 import java.util.ArrayList;
 
+/**
+ * Реализация класса графа
+ */
 public class Graph<NodeData, LinkData> {
 
     class Link {

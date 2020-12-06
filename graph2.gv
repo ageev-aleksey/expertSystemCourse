@@ -1,0 +1,31 @@
+digraph {
+"n1*" [ color=red ];
+"n2*" [ color=red ];
+"n3*" [ color=red ];
+"n4*" [ color=red ];
+"n5*" [ shape=box  color=red ];
+"n6*" [ shape=box  color=red ];
+"n7*" [ shape=box  color=red ];
+"n8*" [ color=red ];
+"n9*" [ shape=diamond  color=green ];
+"n10*" [ shape=diamond  color=green ];
+"n11*" [ color=red ];
+"n12*" [ shape=diamond  color=green ];
+"n13*" [ color=red ];
+"n14*" [ color=red ];
+"n15*" [ color=red ];
+"n1*" -> "n2*";
+"n1*" -> "n3*";
+"n2*" -> "n4*";
+"n2*" -> "n5*";
+"n4*" -> "n6*";
+"n4*" -> "n7*";
+"n5*" -> "n8*";
+"n5*" -> "n9*";
+"n6*" -> "n10*";
+"n6*" -> "n11*";
+"n7*" -> "n12*";
+"n7*" -> "n13*";
+"n8*" -> "n14*";
+"n8*" -> "n15*";
+}

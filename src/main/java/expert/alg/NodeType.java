@@ -1,6 +1,7 @@
 package expert.alg;
 
+// Тип вершины
 public enum NodeType {
-    FINAL,
-    MEDIUM
+    FINAL, // конечая вершина
+    MEDIUM // промежуточная вершина
 }
