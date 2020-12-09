@@ -1,13 +1,10 @@
 package lab4;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Function implements Term {
     private String m_sName; /// Навание функции
-    private List<Variable> m_ltArgs; /// Список аргументов функции
+    private List<Term> m_ltArgs; /// Список аргументов функции
 
     public Function(String sName, List<String> lsVarNames) {
         m_sName = sName;
@@ -17,21 +14,32 @@ public class Function implements Term {
         };
     }
 
-    public Function(String sName, Variable ... vars) {
+    public Function(String sName, Term ... vars) {
         m_sName = sName;
         m_ltArgs = new ArrayList<>(vars.length);
-        for (int i = 0; i < vars.length; i++) {
-            m_ltArgs.add(vars[i]);
-        }
+        m_ltArgs.addAll(Arrays.asList(vars));
     }
+
+    private Function() {}
 
 
     @Override
     public String name() {
-        return null;
+        return m_sName;
     }
 
-    public Variable arg(int index) {
+    @Override
+    public Term clone() {
+        Function c = new Function();
+        c.m_sName = m_sName;
+        c.m_ltArgs = new ArrayList<>(m_ltArgs.size());
+        for (Term t : m_ltArgs) {
+            c.m_ltArgs.add(t.clone());
+        }
+        return c;
+    }
+
+    public Term arg(int index) {
         return m_ltArgs.get(index);
     }
 
@@ -39,7 +47,7 @@ public class Function implements Term {
         return null;
     }
 
-    public List<Variable> args() {
+    public List<Term> args() {
         return m_ltArgs;
     }
 
@@ -50,7 +58,7 @@ public class Function implements Term {
             .append(m_sName)
             .append("; [");
         int len = m_ltArgs.size();
-        Iterator<Variable> itr = m_ltArgs.iterator();
+        Iterator<Term> itr = m_ltArgs.iterator();
         for (int i = 0; i < len-1; i++) {
             Term t = itr.next();
             sb.append(t.toString())

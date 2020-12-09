@@ -4,39 +4,58 @@ import javax.management.ValueExp;
 
 public class Variable implements Term {
     private String m_sName;
-    private Term m_tValue;
+//    private Term m_tValue;
 
     public Variable(String sName) {
         m_sName = sName;
-        m_tValue = null;
+//        m_tValue = null;
     }
 
-    public Variable(String sName, Term tValue) {
-        m_sName = sName;
-        m_tValue = tValue;
-    }
+//    public Variable(String sName, Term tValue) {
+//        m_sName = sName;
+//        m_tValue = tValue;
+//    }
+
+    private Variable() {}
 
     @Override
     public String name() {
         return m_sName;
     }
 
-
-    public void value(Term tValue) {
-        m_tValue = tValue;
+    @Override
+    public Term clone() {
+        Variable c = new Variable();
+        c.m_sName = m_sName;
+        return c;
     }
 
-    public Term value() {
-        return m_tValue;
-    }
+//
+//    public void value(Term tValue) {
+//        m_tValue = tValue;
+//    }
+//
+//    public Term value() {
+//        return m_tValue;
+//    }
 
     @Override
     public String toString() {
-        if (m_tValue != null) {
-            return "var{" + m_sName + "; " + m_tValue.toString() +  "}";
-        } else {
-            return "var{" + m_sName + "; (NULL)}";
-        }
+        return "var{" + m_sName + "}";
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Variable other = (Variable) obj;
+        return m_sName.equals(other.m_sName);
     }
 }
